@@ -2,11 +2,12 @@ from brownie import MockV3Aggregator, accounts, config, network
 
 FORKED_LOCAL_ENVIRONMENTS = ["mainnet-fork", "mainnet-fork-dev"]
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local"]
+LOCAL_AND_FOKED_ENVIRONMENTS = LOCAL_BLOCKCHAIN_ENVIRONMENTS + FORKED_LOCAL_ENVIRONMENTS
 
 
 def get_account():
     active_network = network.show_active()
-    if active_network in LOCAL_BLOCKCHAIN_ENVIRONMENTS + FORKED_LOCAL_ENVIRONMENTS:
+    if active_network in LOCAL_AND_FOKED_ENVIRONMENTS:
         return accounts[0]
     return accounts.add(config["wallets"]["from_key"])
 
@@ -18,7 +19,7 @@ starting_price = 2000 * 10 ** decimals
 def get_verify_flag():
     active_network = network.show_active()
 
-    if active_network not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
+    if active_network not in LOCAL_AND_FOKED_ENVIRONMENTS:
         return True
     return False
 
